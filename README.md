@@ -1,2 +1,7 @@
-# scrudbeans-template
-Sample project template for a SCRUDBeans project
+# scrudbeans project template
+
+Sample project template for a [scrudbeans](https://github.com/manosbatsis/scrudbeans) project.
+
+
+
+
