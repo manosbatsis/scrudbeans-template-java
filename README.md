@@ -49,7 +49,7 @@ You can now browse the Swagger UI documentation at http://localhost:8080/swagger
 ## RSQL Test
 
 RSQL is a query language for parametrized filtering of entries in RESTful APIs. The project endpoints support RSQL 
-by conversion to JPA criteria. For eample, to search for orders between two timestamps (i.e. Dec 10th, 2018), one would use a URL 
+by conversion to JPA criteria. For eample, to search for _orders between two timestamps_ (i.e. Dec 10th, 2018), one would use a URL 
 like http://localhost:37059/api/rest/orders?filter=createdDate%3Dge%3D2018-12-10T00%3A00%3BcreatedDate%3Dle%3D2018-12-10T23%3A59%3A59.999999999
 
 
