@@ -91,8 +91,8 @@ public class RestServicesIntegrationTest extends AbstractRestAssueredIT {
 				.then().log().all()
 				.statusCode(200).extract().as(PagedOrderResources.class);
 
-		log.info("Loaded {} orders", ordersOfTheDay.getMetadata().getTotalElements());
-		assertEquals(1, ordersOfTheDay.getMetadata().getTotalElements());
+		// expecting 2 orders, one creatinjg on startup and one from this test
+		assertEquals(2, ordersOfTheDay.getMetadata().getTotalElements());
 
 	}
 

@@ -82,40 +82,17 @@ public class ScrudBeansSampleApplication {
 			// fetch all customers
 			log.info("Customers found with findAll():");
 			log.info("-------------------------------");
+
+			Order order = orderService.create(Order.builder().email("foo@bar.baz").build());
 			for (Product p : productService.findAll()) {
-				log.info(p.toString());
+				OrderLine orderLine = OrderLine.builder()
+						.order(order)
+						.product(p)
+						.quantity(2).build();
+				orderLine = orderLineService.create(orderLine);
 			}
 			log.info("");
 
-/*
-			// fetch all customers
-			log.info("Customers found with findAll():");
-			log.info("-------------------------------");
-			for (Customer customer : repository.findAll()) {
-				log.info(customer.toString());
-			}
-			log.info("");
-
-			// fetch an individual customer by ID
-			repository.findById(1L)
-					.ifPresent(customer -> {
-						log.info("Customer found with findById(1L):");
-						log.info("--------------------------------");
-						log.info(customer.toString());
-						log.info("");
-					});
-
-			// fetch customers by last name
-			log.info("Customer found with findByLastName('Bauer'):");
-			log.info("--------------------------------------------");
-			repository.findByLastName("Bauer").forEach(bauer -> {
-				log.info(bauer.toString());
-			});
-			// for (Customer bauer : repository.findByLastName("Bauer")) {
-			// 	log.info(bauer.toString());
-			// }
-			log.info("");
-			*/
 		};
 	}
 }
