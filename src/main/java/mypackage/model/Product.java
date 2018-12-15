@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import com.github.manosbatsis.scrudbeans.api.mdd.annotation.model.ScrudResource;
+import com.github.manosbatsis.scrudbeans.api.annotation.ScrudResource;
 import com.github.manosbatsis.scrudbeans.jpa.mdd.model.AbstractSystemUuidPersistableModel;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
-import com.github.manosbatsis.scrudbeans.api.mdd.service.PersistableModelService;
+import com.github.manosbatsis.scrudbeans.api.mdd.PersistableModelService;
 import com.github.manosbatsis.scrudbeans.jpa.mdd.repository.ModelRepositoryFactoryBean;
 import lombok.extern.slf4j.Slf4j;
 import mypackage.model.OrderLine;

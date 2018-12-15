@@ -10,7 +10,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.github.manosbatsis.scrudbeans.api.mdd.annotation.model.ScrudResource;
+import com.github.manosbatsis.scrudbeans.api.annotation.model.ScrudResource;
 import com.github.manosbatsis.scrudbeans.jpa.mdd.model.AbstractSystemUuidPersistableModel;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
