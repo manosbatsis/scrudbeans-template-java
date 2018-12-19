@@ -1,18 +1,19 @@
 package mypackage;
 
-
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
-import com.github.manosbatsis.scrudbeans.api.mdd.PersistableModelService;
-import com.github.manosbatsis.scrudbeans.jpa.mdd.repository.ModelRepositoryFactoryBean;
+import com.github.manosbatsis.scrudbeans.jpa.repository.ModelRepositoryFactoryBean;
 import lombok.extern.slf4j.Slf4j;
 import mypackage.model.OrderLine;
 import mypackage.model.Product;
 import mypackage.model.Order;
+import mypackage.service.OrderLineService;
+import mypackage.service.OrderService;
+import mypackage.service.ProductService;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -70,9 +71,9 @@ public class ScrudBeansSampleApplication {
 	 */
 	@Bean
 	public CommandLineRunner demo(
-			PersistableModelService<Order, String> orderService,
-			PersistableModelService<OrderLine, String> orderLineService,
-			PersistableModelService<Product, String> productService) {
+			OrderService orderService,
+			OrderLineService orderLineService,
+			ProductService productService) {
 		return (args) -> {
 			// save a few products
 			productService.create(new Product("Systemantics", "How Systems Work and Especially How They Fail", BigDecimal.valueOf(126.95)));

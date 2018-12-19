@@ -4,7 +4,6 @@
 	<groupId>com.github.manosbatsis.scrudbeans</groupId>
 	<artifactId>scrudbeans-template</artifactId>
 	<version>0.0.2-SNAPSHOT</version>
-
 	<properties>
 		<java.version>1.8</java.version>
 		<h2.version>1.4.197</h2.version>
@@ -16,6 +15,8 @@
 		<maven-surefire-plugin.version>2.22.0</maven-surefire-plugin.version>
 		<scrudbeans.version>0.0.2-SNAPSHOT</scrudbeans.version>
 		<spring-boot.version>2.1.1.RELEASE</spring-boot.version>
+		<!-- tunn on/off as needed -->
+		<spring-boot.exclude-devtools>true</spring-boot.exclude-devtools>
 		<springfox-swagger.version>2.9.2</springfox-swagger.version>
 
 	</properties>
@@ -40,7 +41,6 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
-
 	<dependencies>
 		<dependency>
 			<groupId>com.github.manosbatsis.scrudbeans</groupId>
@@ -144,7 +144,7 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<version>${spring-boot.version}</version>
 				<configuration>
-					<excludeDevtools>false</excludeDevtools>
+					<excludeDevtools>${spring-boot.exclude-devtools}</excludeDevtools>
 				</configuration>
 			</plugin>
 			<!-- Spring Boot configures surefire by default, but not failsafe -->
@@ -157,40 +157,25 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>${maven-compiler-plugin.version}</version>
-				<!--configuration>
-					<compilerArgs>
-						<arg>-processor</arg>
-						<arg>com.github.manosbatsis.scrudbeans.javapoet.ScrudModelAnnotationProcessor</arg>
-					</compilerArgs>
-				</configuration-->
-				<!--executions>
+			</plugin>
+			<!-- Make generated Java sources available to IntelliJ or other IDE -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<executions>
 					<execution>
-						<id>process-annotations</id>
+						<id>add-source</id>
 						<phase>generate-sources</phase>
 						<goals>
-							<goal>compile</goal>
+							<goal>add-source</goal>
 						</goals>
 						<configuration>
-							<compilerArgs>
-								<arg>-proc:only</arg>
-								<arg>-processor</arg>
-								<arg>MyAnnotationProcessor</arg>
-							</compilerArgs>
+							<sources>
+								<source>${basedir}/target/generated-sources/annotations</source>
+							</sources>
 						</configuration>
 					</execution>
-					<execution>
-						<id>default-compile</id>
-						<phase>compile</phase>
-						<goals>
-							<goal>compile</goal>
-						</goals>
-						<configuration>
-							<compilerArgs>
-								<arg>-proc:none</arg>
-							</compilerArgs>
-						</configuration>
-					</execution>
-				</executions-->
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
