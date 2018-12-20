@@ -94,6 +94,21 @@ public class RestServicesIntegrationTest extends AbstractRestAssueredIT {
 		// expecting 2 orders, one creatinjg on startup and one from this test
 		assertEquals(2, ordersOfTheDay.getMetadata().getTotalElements());
 
+		startOfDay = startOfDay.plusYears(1);
+		endOfDay = endOfDay.plusYears(1);
+
+		ordersOfTheDay = given().log().all()
+				.spec(defaultSpec())
+				// rsql >= day-start and <= day-end
+				.param("filter",
+						"createdDate=ge=" + startOfDay + ";createdDate=le=" + endOfDay)
+				.get("/orders")
+				.then().log().all()
+				.statusCode(200).extract().as(PagedOrderResources.class);
+
+		// expecting 0 orders as the date range is set to the future
+		assertEquals(0, ordersOfTheDay.getMetadata().getTotalElements());
+
 	}
 
 	// Help RestAssured's ObjectMapper
