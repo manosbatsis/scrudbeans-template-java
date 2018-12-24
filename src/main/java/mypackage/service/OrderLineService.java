@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class OrderLineService extends AbstractPersistableModelServiceImpl<OrderLine, String, ModelRepository<OrderLine, String>>
-	implements PersistableModelService<OrderLine, String> {
+		implements PersistableModelService<OrderLine, String> {
 
 	private ModelRepository<Product, String> productRepository;
 

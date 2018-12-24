@@ -2,19 +2,18 @@ package mypackage.test;
 
 import static io.restassured.RestAssured.given;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 
-import com.github.manosbatsis.scrudbeans.hypermedia.hateoas.ModelResource;
-import com.github.manosbatsis.scrudbeans.hypermedia.hateoas.ModelResources;
-import com.github.manosbatsis.scrudbeans.hypermedia.hateoas.PagedModelResources;
 import com.github.manosbatsis.scrudbeans.test.AbstractRestAssueredIT;
+import com.github.manosbatsis.scrudbeans.test.TestableParamsAwarePage;
 import lombok.extern.slf4j.Slf4j;
 import mypackage.ScrudBeansSampleApplication;
 import mypackage.model.Order;
@@ -33,47 +32,94 @@ public class RestServicesIntegrationTest extends AbstractRestAssueredIT {
 
 
 	@Test
-	public void searchProducts_thenNoExceptions() {
-		PagedProductResources products = given().log().all()
-				.spec(defaultSpec())
-				.get("/products")
-				.then().log().all()
-				.statusCode(200).extract().as(PagedProductResources.class);
-	}
-
-
-	@Test
-	public void createAndUpdateOrder_thenNoExceptions() {
-		// Get all products
-		ProductResources products = given().log().all()
+	public void testGetAll() {
+		// Get all products, i.e. without paging
+		Product[] products = given()
 				.spec(defaultSpec())
 				.queryParam("page", "no")
 				.get("/products")
-				.then().log().all()
-				.statusCode(200).extract().as(ProductResources.class);
+				.then()
+				.statusCode(200).extract().as(Product[].class);
+		// expecting at least one order created on application startup
+		assertNotNull(products);
+		assertTrue(products.length > 0);
+	}
 
-		// We have no auth mechanism so we'll
-		// create and use an actual order as a basket
-		Order order = Order.builder().email("foo@bar.baz").build();
-		order = given().log().all()
+	@Test
+	public void testScrud() {
+
+		// Test Search
+		//============================
+		// Get the lord of the rings trilogy as a page of results
+		// using a prefixed wildcard search
+		ProductsPage products = given()
+				.spec(defaultSpec())
+				.queryParam("name", "LOTR %")
+				.get("/products")
+				.then()
+				.statusCode(200).extract().as(ProductsPage.class);
+		// expecting three books
+		assertTrue(products.getContent().size() == 3);
+
+		// Test Create
+		//============================
+		// We have no auth mechanism by default, so we'll
+		// create and use an actual order as a shopping basket
+		String email = "foo@bar.baz";
+		Order order = Order.builder().email(email).build();
+		order = given()
 				.spec(defaultSpec())
 				.body(order)
 				.post("/orders")
-				.then().log().all()
+				.then()
 				.statusCode(201).extract().as(Order.class);
+		// Test Update
+		//============================
+		order.setEmail(order.getEmail() + "_updated");
+		order = given()
+				.spec(defaultSpec())
+				.body(order)
+				.put("/orders/" + order.getId())
+				.then()
+				.statusCode(200).extract().as(Order.class);
+		assertEquals(email + "_updated", order.getEmail());
+		// Test Patch
+		//============================
+		// Prepare the patch
+		Map<String, Object> orderMap = new HashMap<>();
+		orderMap.put("id", order.getId());
+		orderMap.put("email", order.getEmail() + "_patched");
+		// Submit the patch
+		order = given()
+				.spec(defaultSpec())
+				.body(orderMap)
+				.put("/orders/" + order.getId())
+				.then()
+				.statusCode(200).extract().as(Order.class);
+		assertEquals(email + "_updated_patched", order.getEmail());
+
+		// Test Read
+		//============================
+		// verify order was created and can be retrieved
+		order = given()
+				.spec(defaultSpec())
+				.get("/orders/" + order.getId())
+				.then()
+				.statusCode(200).extract().as(Order.class);
+		assertEquals(email + "_updated_patched", order.getEmail());
 
 		// Add order items (lines)
-		for (ModelResource<Product> p : products.getContent()){
+		for (Product p : products) {
 
 			OrderLine orderLine = OrderLine.builder()
 					.order(order)
-					.product(p.getContent())
+					.product(p)
 					.quantity(2).build();
-			given().log().all()
+			given()
 					.spec(defaultSpec())
 					.body(orderLine)
-					.post("/orderLines")
-					.then().log().all()
+					.post("/" + OrderLine.API_PATH_FRAGMENT)
+					.then()
 					.statusCode(201).extract().as(OrderLine.class);
 		}
 
@@ -82,40 +128,43 @@ public class RestServicesIntegrationTest extends AbstractRestAssueredIT {
 		LocalDateTime startOfDay = localDate.atStartOfDay();
 		LocalDateTime endOfDay = localDate.atTime(LocalTime.MAX);
 
-		PagedOrderResources ordersOfTheDay = given().log().all()
+		// Test RSQL Search
+		//============================
+		OrdersPage ordersOfTheDay = given()
 				.spec(defaultSpec())
-				// rsql >= day-start and <= day-end
+				// >= day-start and <= day-end
 				.param("filter",
 						"createdDate=ge=" + startOfDay + ";createdDate=le=" + endOfDay)
 				.get("/orders")
-				.then().log().all()
-				.statusCode(200).extract().as(PagedOrderResources.class);
+				.then()
+				.statusCode(200).extract().as(OrdersPage.class);
 
-		// expecting 2 orders, one creatinjg on startup and one from this test
-		assertEquals(2, ordersOfTheDay.getMetadata().getTotalElements());
+		// expecting 2 orders, one created on startup and one from this test
+		assertEquals(2, ordersOfTheDay.getTotalElements());
 
+		// try the same dates for the following year
 		startOfDay = startOfDay.plusYears(1);
 		endOfDay = endOfDay.plusYears(1);
-
-		ordersOfTheDay = given().log().all()
+		ordersOfTheDay = given()
 				.spec(defaultSpec())
-				// rsql >= day-start and <= day-end
+				// >= day-start and <= day-end
 				.param("filter",
 						"createdDate=ge=" + startOfDay + ";createdDate=le=" + endOfDay)
 				.get("/orders")
-				.then().log().all()
-				.statusCode(200).extract().as(PagedOrderResources.class);
+				.then()
+				.statusCode(200).extract().as(OrdersPage.class);
 
 		// expecting 0 orders as the date range is set to the future
-		assertEquals(0, ordersOfTheDay.getMetadata().getTotalElements());
+		assertEquals(0, ordersOfTheDay.getTotalElements());
 
 	}
 
-	// Help RestAssured's ObjectMapper
-	public static class PagedProductResources extends PagedModelResources<Product>{	}
-	public static class ProductResources extends ModelResources<Product> {	}
-	public static class PagedOrderResources extends PagedModelResources<Order>{	}
-	public static class OrderResources extends ModelResources<Order> {	}
+	// Help RestAssured's mapping
+	public static class ProductsPage extends TestableParamsAwarePage<Product> {
+	}
+
+	public static class OrdersPage extends TestableParamsAwarePage<Order> {
+	}
 
 
 }

@@ -27,9 +27,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
-@Builder
 @Table(name = "product_orders")
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
@@ -69,4 +69,5 @@ public class Order extends AbstractSystemUuidPersistableModel {
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
 	@ApiModelProperty(dataType = "float", value = "Total order cost", readOnly = true, example = "45.99")
 	private BigDecimal total;
+
 }

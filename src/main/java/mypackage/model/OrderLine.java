@@ -22,8 +22,8 @@ import org.hibernate.annotations.Formula;
 
 @Entity
 @Table(name = "order_lines")
-@Builder
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @ScrudResource(

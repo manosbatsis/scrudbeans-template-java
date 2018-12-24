@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.manosbatsis.scrudbeans</groupId>
 	<artifactId>scrudbeans-template</artifactId>
-	<version>0.0.2-SNAPSHOT</version>
+	<version>0.1-SNAPSHOT</version>
 	<properties>
 		<java.version>1.8</java.version>
 		<h2.version>1.4.197</h2.version>
@@ -13,7 +13,7 @@
 		<maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
 		<maven-failsafe-plugin.version>2.22.0</maven-failsafe-plugin.version>
 		<maven-surefire-plugin.version>2.22.0</maven-surefire-plugin.version>
-		<scrudbeans.version>0.0.2-SNAPSHOT</scrudbeans.version>
+		<scrudbeans.version>0.2</scrudbeans.version>
 		<spring-boot.version>2.1.1.RELEASE</spring-boot.version>
 		<!-- tunn on/off as needed -->
 		<spring-boot.exclude-devtools>true</spring-boot.exclude-devtools>
@@ -23,6 +23,10 @@
 	<repositories>
 		<repository>
 			<id>sonatype</id>
+			<url>https://oss.sonatype.org/content/repositories/releases/</url>
+		</repository>
+		<repository>
+			<id>sonatype-snapshots</id>
 			<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
 			<snapshots>
 				<enabled>true</enabled>
@@ -79,11 +83,6 @@
 			<!--scope>test</scope-->
 		</dependency>
 		<!-- Provided/code generation Dependencies -->
-		<dependency>
-			<groupId>com.github.manosbatsis.scrudbeans</groupId>
-			<artifactId>scrudbeans-javapoet</artifactId>
-			<version>${scrudbeans.version}</version>
-		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
