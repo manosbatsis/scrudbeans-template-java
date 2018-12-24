@@ -1,8 +1,9 @@
 package mypackage.service;
 
+
 import com.github.manosbatsis.scrudbeans.api.mdd.repository.ModelRepository;
 import com.github.manosbatsis.scrudbeans.api.mdd.service.PersistableModelService;
-import com.github.manosbatsis.scrudbeans.jpa.mdd.service.AbstractPersistableModelServiceImpl;
+import com.github.manosbatsis.scrudbeans.jpa.service.AbstractPersistableModelServiceImpl;
 import mypackage.model.OrderLine;
 import mypackage.model.Product;
 
@@ -11,10 +12,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class OrderLineService extends AbstractPersistableModelServiceImpl<OrderLine, String, ModelRepository<OrderLine, String>>
-	implements PersistableModelService<OrderLine, String> {
+		implements PersistableModelService<OrderLine, String> {
 
-	@Autowired
-	ModelRepository<Product, String> productRepository;
+	private ModelRepository<Product, String> productRepository;
 
 	/**
 	 * {@inheritDoc}
@@ -32,4 +32,8 @@ public class OrderLineService extends AbstractPersistableModelServiceImpl<OrderL
 		return super.create(resource);
 	}
 
+	@Autowired
+	public void setProductRepository(ModelRepository<Product, String> productRepository) {
+		this.productRepository = productRepository;
+	}
 }

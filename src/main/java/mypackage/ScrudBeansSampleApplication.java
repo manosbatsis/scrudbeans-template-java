@@ -1,18 +1,19 @@
 package mypackage;
 
-
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
 
-import com.github.manosbatsis.scrudbeans.api.mdd.service.PersistableModelService;
-import com.github.manosbatsis.scrudbeans.jpa.mdd.repository.ModelRepositoryFactoryBean;
+import com.github.manosbatsis.scrudbeans.jpa.repository.ModelRepositoryFactoryBean;
 import lombok.extern.slf4j.Slf4j;
+import mypackage.model.Order;
 import mypackage.model.OrderLine;
 import mypackage.model.Product;
-import mypackage.model.Order;
+import mypackage.service.OrderLineService;
+import mypackage.service.OrderService;
+import mypackage.service.ProductService;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -70,14 +71,17 @@ public class ScrudBeansSampleApplication {
 	 */
 	@Bean
 	public CommandLineRunner demo(
-			PersistableModelService<Order, String> orderService,
-			PersistableModelService<OrderLine, String> orderLineService,
-			PersistableModelService<Product, String> productService) {
+			OrderService orderService,
+			OrderLineService orderLineService,
+			ProductService productService) {
 		return (args) -> {
 			// save a few products
-			productService.create(new Product("Systemantics", "How Systems Work and Especially How They Fail", BigDecimal.valueOf(126.95)));
-			productService.create(new Product("Design Patterns", "Elements of Reusable Object-Oriented Software", BigDecimal.valueOf(42.93)));
-			productService.create(new Product("XML Topic Maps", "Creating and Using Topic Maps for the Web", BigDecimal.valueOf(3.44)));
+			productService.create(Product.builder().name("Systemantics").description("How Systems Work and Especially How They Fail").price(BigDecimal.valueOf(126.95)).build());
+			productService.create(Product.builder().name("Design Patterns").description("Elements of Reusable Object-Oriented Software").price(BigDecimal.valueOf(42.93)).build());
+			productService.create(Product.builder().name("XML Topic Maps").description("Creating and Using Topic Maps for the Web").price(BigDecimal.valueOf(3.44)).build());
+			productService.create(Product.builder().name("LOTR 1").description("Lord or the rings:  The Fellowship of the Ring").price(BigDecimal.valueOf(3.44)).build());
+			productService.create(Product.builder().name("LOTR 2").description("Lord or the rings:  The Two Towers").price(BigDecimal.valueOf(3.44)).build());
+			productService.create(Product.builder().name("LOTR 3").description("Lord or the rings:  The Return of the King").price(BigDecimal.valueOf(3.44)).build());
 			// fetch all customers
 			// fetch all customers
 			log.info("Customers found with findAll():");

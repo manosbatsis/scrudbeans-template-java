@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.manosbatsis.scrudbeans.api.mdd.annotation.model.ScrudResource;
-import com.github.manosbatsis.scrudbeans.jpa.mdd.model.AbstractSystemUuidPersistableModel;
+import com.github.manosbatsis.scrudbeans.jpa.model.AbstractSystemUuidPersistableModel;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -22,8 +22,8 @@ import org.hibernate.annotations.Formula;
 
 @Entity
 @Table(name = "order_lines")
-@Builder
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @ScrudResource(
