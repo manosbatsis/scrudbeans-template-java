@@ -118,7 +118,7 @@ public class RestServicesIntegrationTest extends AbstractRestAssueredIT {
 			given()
 					.spec(defaultSpec())
 					.body(orderLine)
-					.post("/" + OrderLine.API_PATH_FRAGMENT)
+					.post("/orderLines")
 					.then()
 					.statusCode(201).extract().as(OrderLine.class);
 		}
