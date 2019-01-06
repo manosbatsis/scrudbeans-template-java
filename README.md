@@ -23,25 +23,37 @@ Navigate to the project directory
 cd scrudbeans-template
 ```
 
-Build and execute the REST Assured [integration tests](src/test/java/mypackage/test/RestServicesIntegrationTest.java):
-
+Build and execute the REST Assured [integration tests](src/test/java/mypackage/test/RestServicesIntegrationTest.java) 
+using Maven:
 
 ```bash
-./mvnw clean install
+./mvnw clean install 
+```
+
+or, if you prefer Gradle:
+
+```bash
+./gradlew clean build
 ```
 
 ## Manual Test
 
-To launch the app:
+To launch the app with Maven:
 
 ```bash
 ./mvnw spring-boot:run
 ```
 
+or Gradle:
+
+```bash
+./gradlew bootRun
+```
+
 ![./mvnw spring-boot:run][spring-boot-run]
 
 
-You can now browse the Swagger UI documentation at http://localhost:8080/swagger-ui.html:
+You can now browse the Swagger UI documentation at http://localhost:8080/swagger-ui.html
 
 ![swagger-ui][swagger-ui]
 
