@@ -1,8 +1,8 @@
 # ScrudBeans Project Template [![Build Status](https://travis-ci.org/manosbatsis/scrudbeans-template.svg?branch=master)](https://travis-ci.org/manosbatsis/scrudbeans-template)
 
-Sample project template for a [ScrudBeans](https://github.com/manosbatsis/scrudbeans) project, 
-demonstrating how ScrudBeans generates component classes like repositories, services and controllers, as well as 
- how you can selectively use your own when desired.
+Sample project template for a [ScrudBeans](https://github.com/manosbatsis/scrudbeans) project.
+Demonstrates ScrudBeans generated component classes like repositories, services and controllers, as 
+well as custom/explicit components. Both Maven and Gradle are supported. 
 
 The following sections will guide you in building and testing the project. 
 
