@@ -1,7 +1,7 @@
 buildscript {
 	ext {
 		springBootVersion = '2.1.1.RELEASE'
-		scrudbeansVersion = '0.8'
+		scrudbeansVersion = '0.12'
 	}
 	repositories {
 		mavenCentral()
