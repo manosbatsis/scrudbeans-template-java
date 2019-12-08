@@ -1,4 +1,4 @@
-package mypackage;
+package myjavapackage;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -8,12 +8,12 @@ import java.util.Locale;
 
 import com.github.manosbatsis.scrudbeans.jpa.repository.ModelRepositoryFactoryBean;
 import lombok.extern.slf4j.Slf4j;
-import mypackage.model.Order;
-import mypackage.model.OrderLine;
-import mypackage.model.Product;
-import mypackage.service.OrderLineService;
-import mypackage.service.OrderService;
-import mypackage.service.ProductService;
+import myjavapackage.model.Order;
+import myjavapackage.model.OrderLine;
+import myjavapackage.model.Product;
+import myjavapackage.service.OrderLineService;
+import myjavapackage.service.OrderService;
+import myjavapackage.service.ProductService;
 
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -41,7 +41,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 )
 public class ScrudBeansSampleApplication {
 
-	public static final String PACKAGE_NAME = "mypackage";
+	public static final String PACKAGE_NAME = "myjavapackage";
 
 	public static void main(String[] args) {
 		SpringApplication.run(ScrudBeansSampleApplication.class, args);

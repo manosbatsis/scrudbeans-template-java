@@ -1,12 +1,12 @@
-package mypackage.controller;
+package myjavapackage.controller;
 
 
 import com.github.manosbatsis.scrudbeans.api.exception.NotImplementedException;
 import com.github.manosbatsis.scrudbeans.api.util.Mimes;
 import com.github.manosbatsis.scrudbeans.jpa.controller.AbstractPersistableModelController;
 import io.swagger.annotations.Api;
-import mypackage.model.OrderLine;
-import mypackage.service.OrderLineService;
+import myjavapackage.model.OrderLine;
+import myjavapackage.service.OrderLineService;
 
 import org.springframework.hateoas.ExposesResourceFor;
 import org.springframework.util.MimeTypeUtils;

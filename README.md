@@ -27,7 +27,7 @@ Build and execute the REST Assured [integration tests](src/test/java/mypackage/t
 using Maven:
 
 ```bash
-./mvnw clean install 
+./mvnw clean verify install 
 ```
 
 or, if you prefer Gradle:

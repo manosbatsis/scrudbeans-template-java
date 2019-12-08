@@ -2,8 +2,8 @@
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.manosbatsis.scrudbeans</groupId>
-	<artifactId>scrudbeans-template</artifactId>
-	<version>0.1-SNAPSHOT</version>
+	<artifactId>scrudbeans-template-java</artifactId>
+	<version>0.2-SNAPSHOT</version>
 	<properties>
 		<java.version>1.8</java.version>
 		<h2.version>1.4.197</h2.version>
@@ -11,15 +11,15 @@
 		<maven.compiler.source>${java.version}</maven.compiler.source>
 		<maven.compiler.target>${java.version}</maven.compiler.target>
 		<maven-compiler-plugin.version>3.8.0</maven-compiler-plugin.version>
-		<maven-failsafe-plugin.version>2.22.0</maven-failsafe-plugin.version>
-		<maven-surefire-plugin.version>2.22.0</maven-surefire-plugin.version>
+		<maven-failsafe-plugin.version>3.0.0-M3</maven-failsafe-plugin.version>
+		<maven-surefire-plugin.version>3.0.0-M3</maven-surefire-plugin.version>
 		<build-helper-maven-plugin.version>3.0.0</build-helper-maven-plugin.version>
-		<scrudbeans.version>0.12</scrudbeans.version>
+		<scrudbeans.version>0.14-SNAPSHOT</scrudbeans.version>
 		<spring-boot.version>2.1.1.RELEASE</spring-boot.version>
+		<springfox-swagger.version>2.9.2</springfox-swagger.version>
 		<!-- tunn on/off as needed -->
 		<spring-boot.exclude-devtools>true</spring-boot.exclude-devtools>
-		<springfox-swagger.version>2.9.2</springfox-swagger.version>
-
+		<it.skip>false</it.skip>
 	</properties>
 	<repositories>
 		<repository>
@@ -72,6 +72,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.datatype</groupId>
+			<artifactId>jackson-datatype-jdk8</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>io.springfox</groupId>
 			<artifactId>springfox-swagger-ui</artifactId>
@@ -111,12 +116,9 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.fasterxml.jackson.module</groupId>
-			<artifactId>jackson-module-parameter-names</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>com.fasterxml.jackson.datatype</groupId>
-			<artifactId>jackson-datatype-jdk8</artifactId>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 	<reporting>
@@ -152,6 +154,33 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
 				<version>${maven-failsafe-plugin.version}</version>
+				<configuration>
+					<skipITs>${it.skip}</skipITs>
+					<includes>
+						<include>**/*IT.java</include>
+					</includes>
+				</configuration>
+				<!--
+                running UT and IT's:
+
+                mvn clean verify
+
+                running IT's but NOT UT's
+
+                mvn clean verify -Dsurefire.skip=true
+
+                running UT but not IT's:
+
+                mvn clean verify -DskipITs=true
+                -->
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
