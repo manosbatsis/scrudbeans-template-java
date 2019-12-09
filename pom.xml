@@ -14,7 +14,7 @@
 		<maven-failsafe-plugin.version>3.0.0-M3</maven-failsafe-plugin.version>
 		<maven-surefire-plugin.version>3.0.0-M3</maven-surefire-plugin.version>
 		<build-helper-maven-plugin.version>3.0.0</build-helper-maven-plugin.version>
-		<scrudbeans.version>0.14-SNAPSHOT</scrudbeans.version>
+		<scrudbeans.version>0.14</scrudbeans.version>
 		<spring-boot.version>2.1.1.RELEASE</spring-boot.version>
 		<springfox-swagger.version>2.9.2</springfox-swagger.version>
 		<!-- tunn on/off as needed -->
@@ -52,6 +52,7 @@
 			<artifactId>scrudbeans-spring-boot-starter</artifactId>
 			<version>${scrudbeans.version}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter</artifactId>
@@ -88,7 +89,13 @@
 			<version>${h2.version}</version>
 			<!--scope>test</scope-->
 		</dependency>
-		<!-- Provided/code generation Dependencies -->
+		<!-- Provided/code generation Dependencies for Java -->
+		<dependency>
+			<groupId>com.github.manosbatsis.scrudbeans</groupId>
+			<artifactId>scrudbeans-annotation-processor-java</artifactId>
+			<version>${scrudbeans.version}</version>
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>

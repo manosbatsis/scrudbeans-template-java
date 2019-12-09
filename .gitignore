@@ -18,13 +18,13 @@ lib/dokka.jar
 
 ### JetBrains template
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio
-
+.idea
 *.iml
 
 ## Directory-based project format:
 #.idea
 
-# if you remove the above ru`le, at least ignore the following:
+# if you remove the above rule, at least ignore the following:
 
 # Specific files to avoid churn
 .idea/gradle.xml

@@ -1,7 +1,7 @@
 buildscript {
 	ext {
 		springBootVersion = '2.1.1.RELEASE'
-		scrudbeansVersion = '0.14-SNAPSHOT'
+		scrudbeansVersion = '0.14'
 	}
 	repositories {
 		mavenCentral()
@@ -35,9 +35,15 @@ repositories {
 dependencies {
 	implementation('org.springframework.boot:spring-boot-starter-data-jpa')
 	implementation('org.springframework.boot:spring-boot-starter-web')
+
+	// Scrudbeans
 	implementation("com.github.manosbatsis.scrudbeans:scrudbeans-spring-boot-starter:$scrudbeansVersion")
 	implementation('org.projectlombok:lombok')
 	implementation group: 'com.h2database', name: 'h2'//, version: '1.4.197'
+
+	// Scrudbeans Annotation Processor for Java
+	implementation("com.github.manosbatsis.scrudbeans:scrudbeans-annotation-processor-java:$scrudbeansVersion")
+
 	testImplementation('org.springframework.boot:spring-boot-starter-test')
 	testImplementation("com.github.manosbatsis.scrudbeans:scrudbeans-spring-boot-starter-test:$scrudbeansVersion")
 }
