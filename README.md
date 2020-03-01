@@ -14,7 +14,7 @@ The following sections will guide you in building and testing the project.
 Clone:
 
 ```bash
-git clone https://github.com/manosbatsis/scrudbeans-template.git
+git clone https://github.com/manosbatsis/scrudbeans-template-java.git
 ```
 
 Navigate to the project directory
