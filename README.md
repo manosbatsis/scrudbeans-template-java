@@ -1,4 +1,4 @@
-# ScrudBeans Project Template [![Build Status](https://travis-ci.org/manosbatsis/scrudbeans-template.svg?branch=master)](https://travis-ci.org/manosbatsis/scrudbeans-template)
+# ScrudBeans Project Template for Java [![Build Status](https://travis-ci.org/manosbatsis/scrudbeans-template-java.svg?branch=master)](https://travis-ci.org/manosbatsis/scrudbeans-template-java)
 
 Sample project template for a [ScrudBeans](https://github.com/manosbatsis/scrudbeans) project.
 Demonstrates ScrudBeans generated component classes like repositories, services and controllers, as 
@@ -23,7 +23,7 @@ Navigate to the project directory
 cd scrudbeans-template
 ```
 
-Build and execute the REST Assured [integration tests](src/test/java/mypackage/test/RestServicesIntegrationTest.java) 
+Build and execute [integration tests](src/test/) 
 using Maven:
 
 ```bash
@@ -33,7 +33,7 @@ using Maven:
 or, if you prefer Gradle:
 
 ```bash
-./gradlew clean build
+./gradlew clean build integrationTest
 ```
 
 ## Manual Test
