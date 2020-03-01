@@ -1,6 +1,6 @@
 env:
   - BUILD_COMMAND="./mvnw install"
-  - BUILD_COMMAND="./gradlew build"
+  - BUILD_COMMAND="./gradlew clean build integrationTest"
 
 language: java
 jdk:
