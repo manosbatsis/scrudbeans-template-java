@@ -1,12 +1,7 @@
 package myjavapackage;
 
-import java.math.BigDecimal;
-import java.text.ParseException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Locale;
-
-import com.github.manosbatsis.scrudbeans.jpa.repository.ModelRepositoryFactoryBean;
+import com.github.manosbatsis.scrudbeans.repository.ModelRepository;
+import com.github.manosbatsis.scrudbeans.repository.ModelRepositoryFactoryBean;
 import lombok.extern.slf4j.Slf4j;
 import myjavapackage.model.Order;
 import myjavapackage.model.OrderLine;
@@ -14,7 +9,6 @@ import myjavapackage.model.Product;
 import myjavapackage.service.OrderLineService;
 import myjavapackage.service.OrderService;
 import myjavapackage.service.ProductService;
-
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,10 +16,18 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.format.Formatter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 @Slf4j
 // Remove security and error handling
@@ -36,8 +38,11 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 // Scan for existing or runtime-generated (scrudbeans) components
 @EntityScan({ScrudBeansSampleApplication.PACKAGE_NAME})
 @EnableJpaRepositories(
-		basePackages = {ScrudBeansSampleApplication.PACKAGE_NAME},
-		repositoryFactoryBeanClass = ModelRepositoryFactoryBean.class
+        basePackages = {ScrudBeansSampleApplication.PACKAGE_NAME},
+        includeFilters = {
+                @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {ModelRepository.class})
+        },
+        repositoryFactoryBeanClass = ModelRepositoryFactoryBean.class
 )
 public class ScrudBeansSampleApplication {
 

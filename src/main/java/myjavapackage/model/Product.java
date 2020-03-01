@@ -1,20 +1,17 @@
 package myjavapackage.model;
 
-import java.math.BigDecimal;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-
 import com.github.manosbatsis.scrudbeans.api.mdd.annotation.model.ScrudBean;
-import com.github.manosbatsis.scrudbeans.jpa.model.AbstractSystemUuidPersistableModel;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.github.manosbatsis.scrudbeans.model.AbstractHibernateModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "products")
@@ -23,22 +20,27 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @ScrudBean
-@ApiModel(value = "Product", description = "A model representing a single product")
-public class Product extends AbstractSystemUuidPersistableModel {
+@Schema(name = "Product", description = "A model representing a single product")
+public class Product extends AbstractHibernateModel<String> {
 
-	@NotNull
-	@Column(nullable = false)
-	@ApiModelProperty(value = "The product name", required = true)
-	private String name;
+    @Id
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid2")
+    private String id;
 
-	@NotNull
-	@Column(nullable = false, length = 512)
-	@ApiModelProperty(value = "The product short description (max 512 chars)", required = true)
-	private String description;
+    @NotNull
+    @Column(nullable = false)
+    @Schema(description = "The product name", required = true)
+    private String name;
 
-	@NotNull
-	@Column(nullable = false)
-	@ApiModelProperty(dataType = "float", value = "The product price", required = true, example = "3.05")
-	private BigDecimal price;
+    @NotNull
+    @Column(nullable = false, length = 512)
+    @Schema(description = "The product short description (max 512 chars)", required = true)
+    private String description;
+
+    @NotNull
+    @Column(nullable = false)
+    @Schema(type = "float", description = "The product price", required = true, example = "3.05")
+    private BigDecimal price;
 
 }

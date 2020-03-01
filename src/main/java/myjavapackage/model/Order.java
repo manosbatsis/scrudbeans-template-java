@@ -1,31 +1,24 @@
 package myjavapackage.model;
 
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.manosbatsis.scrudbeans.api.mdd.annotation.model.ScrudBean;
-import com.github.manosbatsis.scrudbeans.jpa.model.AbstractSystemUuidPersistableModel;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.github.manosbatsis.scrudbeans.model.AbstractHibernateModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import myjavapackage.dto.OrderUpdateEmailDTO;
-import org.hibernate.annotations.Formula;
+import org.hibernate.annotations.GenericGenerator;
 import org.javers.core.metamodel.annotation.DiffIgnore;
-
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.format.annotation.DateTimeFormat;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "product_orders")
@@ -35,32 +28,37 @@ import org.springframework.format.annotation.DateTimeFormat;
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 @ScrudBean(dtoTypes = OrderUpdateEmailDTO.class, dtoTypeNames = "myjavapackage.dto.OrderUpdateCommentDTO")
-@ApiModel(value = "Order", description = "A model representing an order of product items")
-public class Order extends AbstractSystemUuidPersistableModel {
+@Schema(name = "Order", description = "A model representing an order of product items")
+public class Order extends AbstractHibernateModel<String> {
 
-	@NotNull
-	@Column(nullable = false)
-	@ApiModelProperty(value = "The client's email", required = true)
-	private String email;
+    @Id
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid2")
+    private String id;
 
-	@Column(length = 512)
-	@ApiModelProperty(value = "Oder comment", required = false)
-	private String comment;
+    @NotNull
+    @Column(nullable = false)
+    @Schema(description = "The client's email", required = true)
+    private String email;
 
-	@CreatedDate
-	@DiffIgnore
-	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
-	@ApiModelProperty(value = "Date created", readOnly = true)
-	@Column(name = "date_created", nullable = false, updatable = false)
-	private LocalDateTime createdDate;
+    @Column(length = 512)
+    @Schema(description = "Oder comment", required = false)
+    private String comment;
 
-	@LastModifiedDate
-	@DiffIgnore
-	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
-	@ApiModelProperty(value = "Date last modified", readOnly = true)
-	@Column(name = "date_last_modified", nullable = false)
-	private LocalDateTime lastModifiedDate;
+    @CreatedDate
+    @DiffIgnore
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @Schema(description = "Date created", readOnly = true)
+    @Column(name = "date_created", nullable = false, updatable = false)
+    private LocalDateTime createdDate;
+
+    @LastModifiedDate
+    @DiffIgnore
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @Schema(description = "Date last modified", readOnly = true)
+    @Column(name = "date_last_modified", nullable = false)
+    private LocalDateTime lastModifiedDate;
 
 }

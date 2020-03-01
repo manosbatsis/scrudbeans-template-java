@@ -1,7 +1,13 @@
 buildscript {
 	ext {
-		springBootVersion = '2.1.1.RELEASE'
-		scrudbeansVersion = '0.14'
+		springBootVersion = '2.2.5.RELEASE'
+		scrudbeansVersion = '0.18'
+		springBootVersion = '2.2.5.RELEASE'
+		scrudbeansVersion = '0.19'
+		classgraph_version = '4.8.44'
+		springdoc_version = '1.2.17'
+		swagger3_version = '2.0.1'
+		lombok_version = '1.18.4'
 	}
 	repositories {
 		mavenCentral()
@@ -32,27 +38,48 @@ repositories {
 	maven { url "https://oss.sonatype.org/content/repositories/releases/" }
 	maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
 }
-dependencies {
-	implementation('org.springframework.boot:spring-boot-starter-data-jpa')
-	implementation('org.springframework.boot:spring-boot-starter-web')
 
-	// Scrudbeans
-	implementation("com.github.manosbatsis.scrudbeans:scrudbeans-spring-boot-starter:$scrudbeansVersion")
-	implementation('org.projectlombok:lombok')
-	implementation group: 'com.h2database', name: 'h2'//, version: '1.4.197'
 
-	// Scrudbeans Annotation Processor for Java
-	implementation("com.github.manosbatsis.scrudbeans:scrudbeans-annotation-processor-java:$scrudbeansVersion")
-
-	testImplementation('org.springframework.boot:spring-boot-starter-test')
-	testImplementation("com.github.manosbatsis.scrudbeans:scrudbeans-spring-boot-starter-test:$scrudbeansVersion")
-}
 test {
 	useJUnitPlatform {
 		includeEngines 'junit-jupiter'
 		testLogging {
 			events "passed", "skipped", "failed", "standardOut", "standardError"
 		}
-		//exclude '**/*IntegrationTest.class'
+		exclude '**/*IntegrationTest.class'
 	}
+}
+// Run integration tests using junit5
+task integrationTest(type: Test) {
+	useJUnitPlatform {
+		includeEngines 'junit-jupiter'
+		testLogging {
+			events "passed", "skipped", "failed", "standardOut", "standardError"
+		}
+		include '**/*IntegrationTest.class'
+
+	}
+}
+
+
+dependencies {
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa:${springBootVersion}")
+	implementation("org.springframework.boot:spring-boot-starter-web:${springBootVersion}")
+	implementation group: 'com.h2database', name: 'h2'//, version: '1.4.197'
+
+	implementation("com.github.manosbatsis.scrudbeans:scrudbeans-spring-boot-starter:$scrudbeansVersion")
+	implementation("com.github.manosbatsis.scrudbeans:scrudbeans-annotation-processor-java:$scrudbeansVersion")
+	annotationProcessor("com.github.manosbatsis.scrudbeans:scrudbeans-annotation-processor-java:$scrudbeansVersion")
+	testAnnotationProcessor("com.github.manosbatsis.scrudbeans:scrudbeans-annotation-processor-java:$scrudbeansVersion")
+
+	implementation("org.springdoc:springdoc-openapi-ui:$springdoc_version")
+	implementation("io.swagger.core.v3:swagger-annotations:$swagger3_version")
+	implementation("io.github.classgraph:classgraph:$classgraph_version")
+	implementation("com.h2database:h2:1.4.199")
+	compileOnly("org.projectlombok:lombok:$lombok_version")
+	testCompileOnly("org.projectlombok:lombok:$lombok_version")
+	annotationProcessor("org.projectlombok:lombok:$lombok_version")
+	testAnnotationProcessor("org.projectlombok:lombok:$lombok_version")
+	testImplementation("org.springframework.boot:spring-boot-starter-test:${springBootVersion}")
+	testImplementation("com.github.manosbatsis.scrudbeans:scrudbeans-spring-boot-starter-test:$scrudbeansVersion")
 }

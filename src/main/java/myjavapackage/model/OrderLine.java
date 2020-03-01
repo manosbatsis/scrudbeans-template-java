@@ -1,24 +1,19 @@
 package myjavapackage.model;
 
-import java.math.BigDecimal;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.manosbatsis.scrudbeans.api.mdd.annotation.model.ScrudBean;
-import com.github.manosbatsis.scrudbeans.jpa.model.AbstractSystemUuidPersistableModel;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import com.github.manosbatsis.scrudbeans.model.AbstractHibernateModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Formula;
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 
 @Entity
 @Table(name = "order_lines")
@@ -27,29 +22,34 @@ import org.hibernate.annotations.Formula;
 @NoArgsConstructor
 @AllArgsConstructor
 @ScrudBean
-@ApiModel(value = "Order Line", description = "A model representing an order line")
-public class OrderLine extends AbstractSystemUuidPersistableModel {
+@Schema(name = "Order Line", description = "A model representing an order line")
+public class OrderLine extends AbstractHibernateModel<String> {
+
+	@Id
+	@GeneratedValue(generator = "system-uuid")
+	@GenericGenerator(name = "system-uuid", strategy = "uuid2")
+	private String id;
 
 	@NotNull
 	@Column(nullable = false)
-	@ApiModelProperty(dataType = "int", value = "The desired quantity, default is 1", example = "2")
+	@Schema(type = "int", description = "The desired quantity, default is 1", example = "2")
 	private Integer quantity = 1;
 
 	@Formula(" (select p.price * quantity from products p where p.id = product_id) ")
 	@JsonProperty(access = JsonProperty.Access.READ_ONLY)
-	@ApiModelProperty(dataType = "float", value = "The subtotal cost for this order line", readOnly = true, example = "3.05")
+	@Schema(type = "float", description = "The subtotal cost for this order line", readOnly = true, example = "3.05")
 	private BigDecimal lineTotal;
 
 	@NotNull
 	@ManyToOne
 	@JoinColumn(referencedColumnName = "id", nullable = false, updatable = false)
-	@ApiModelProperty(value = "The product for this order line", required = true)
+	@Schema(description = "The product for this order line", required = true)
 	private Product product;
 
 	@NotNull
 	@ManyToOne
 	@JoinColumn(referencedColumnName = "id", nullable = false, updatable = false)
-	@ApiModelProperty(value = "The parent order", required = true)
+	@Schema(description = "The parent order", required = true)
 	private Order order;
 
 }

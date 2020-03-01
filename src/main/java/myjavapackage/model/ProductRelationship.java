@@ -1,20 +1,19 @@
 package myjavapackage.model;
 
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
-
-import com.github.manosbatsis.scrudbeans.api.domain.Persistable;
 import com.github.manosbatsis.scrudbeans.api.mdd.annotation.model.ScrudBean;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Formula;
+import org.springframework.data.domain.Persistable;
+
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 /**
  * Sample composite ID entity
@@ -26,30 +25,26 @@ import org.hibernate.annotations.Formula;
 @NoArgsConstructor
 @AllArgsConstructor
 @ScrudBean
-@ApiModel(value = "Product Relationships", description = "A model representing a relationship between products")
+@Schema(name = "Product Relationships", description = "A model representing a relationship between products")
 public class ProductRelationship implements Persistable<ProductRelationshipIdentifier> {
 
     @NotNull
-    @ApiModelProperty(required = true)
+    @Schema(required = true)
     @EmbeddedId
     private ProductRelationshipIdentifier id;
 
     @NotNull
     @Column(nullable = false, length = 512)
-    @ApiModelProperty(value = "The relationship short description (max 512 chars)", required = true)
+    @Schema(description = "The relationship short description (max 512 chars)", required = true)
     private String description;
 
-    @Formula(" true ")
-    private boolean persisted;
 
-    @Override
-    public ProductRelationshipIdentifier getScrudBeanId() {
-        return getId();
-    }
+    @Formula(" true ")
+    private boolean persisted = false;
 
     @Override
     public boolean isNew() {
-        return persisted;
+        return !persisted;
     }
 
 }
