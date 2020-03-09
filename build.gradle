@@ -1,7 +1,7 @@
 buildscript {
 	ext {
 		springBootVersion = '2.2.5.RELEASE'
-		scrudbeansVersion = '0.18'
+		scrudbeansVersion = '0.23'
 		springBootVersion = '2.2.5.RELEASE'
 		scrudbeansVersion = '0.19'
 		classgraph_version = '4.8.44'
