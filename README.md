@@ -1,4 +1,4 @@
-# ScrudBeans Project Template for Java [![Build Status](https://travis-ci.org/manosbatsis/scrudbeans-template-java.svg?branch=master)](https://travis-ci.org/manosbatsis/scrudbeans-template-java)
+# ScrudBeans Project Template for Java [![Build Status](https://travis-ci.com/manosbatsis/scrudbeans-template-java.svg?branch=master)](https://travis-ci.com/manosbatsis/scrudbeans-template-java)
 
 Sample project template for a [ScrudBeans](https://github.com/manosbatsis/scrudbeans) project.
 Demonstrates ScrudBeans generated component classes like repositories, services and controllers, as 
